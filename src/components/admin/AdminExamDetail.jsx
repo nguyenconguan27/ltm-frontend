@@ -6,15 +6,15 @@ import { toast } from "react-toastify";
 
 const AdminExamDetail = () => {
   const { examId } = useParams();
-  const [examExercises, setExamExercises] = useState([]);
+  const [examQuestions, setExamQuestions] = useState([]);
   const [examUsers, setExamUsers] = useState([]);
   const { accessToken } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchExercises = async () => {
+    const fetchQuestions = async () => {
       try {
         const response = await fetch(
-          `${API_URL}/exercise-exam/exercises?examId=${examId}`,
+          `${API_URL}/question-exam/questions?examId=${examId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -26,12 +26,12 @@ const AdminExamDetail = () => {
           const result = await response.json();
           // console.log(result)
           if (result.status === 200) {
-            setExamExercises(result.data.items);
+            setExamQuestions(result.data.items);
           }
         }
       } catch (error) {}
     };
-    fetchExercises();
+    fetchQuestions();
   }, [accessToken, examId]);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const AdminExamDetail = () => {
     fetchAllUsers();
   }, [accessToken, examId]);
 
-  const handleAssignExerciseToUser = async () => {
+  const handleAssignQuestionToUser = async () => {
     try {
       const response = await fetch(`${API_URL}/exams/assign?id=${examId}`, {
         method: "POST",
@@ -107,7 +107,7 @@ const AdminExamDetail = () => {
           </Link>
           <button
             className="ml-2 mr-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-            onClick={handleAssignExerciseToUser}
+            onClick={handleAssignQuestionToUser}
           >
             Tạo đề
           </button>
@@ -154,23 +154,23 @@ const AdminExamDetail = () => {
                 </th>
                 <th className="border px-4 py-2">#</th>
                 <th className="border px-4 py-2">Tên bài</th>
-                <th className="border px-4 py-2">Topic</th>
+                <th className="border px-4 py-2">Group</th>
               </tr>
             </thead>
             <tbody>
-              {examExercises.map((exerciseExam, id) => (
+              {examQuestions.map((questionExam, id) => (
                 <tr key={id} className="even:bg-gray-50 hover:bg-gray-200">
                   <td className="border px-4 py-2">
                     <input type="checkbox" />
                   </td>
                   <td className="border px-4 py-2">
-                    {exerciseExam.exercise.id}
+                    {questionExam.question.id}
                   </td>
                   <td className="border px-4 py-2">
-                    {exerciseExam.exercise.name}
+                    {questionExam.question.name}
                   </td>
                   <td className="border px-4 py-2">
-                    {exerciseExam.exercise.topic.name}
+                    {questionExam.question.group.name}
                   </td>
                 </tr>
               ))}

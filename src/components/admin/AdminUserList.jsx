@@ -1,28 +1,35 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import { API_URL } from "../../constants/endpoints";
+import { useQueries, useQuery } from "@tanstack/react-query";
+import { userApi } from "../../api/user.api";
 
 const AdminUserList = () => {
-  const [users, setUsers] = useState([]);
-  const { accessToken } = useContext(AuthContext);
-  useEffect(() => {
-    const fetchAllUsers = async () => {
-      try {
-        const response = await fetch(`${API_URL}/users/all`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data.data.items);
-        }
-      } catch (error) {
-        // handle
-      }
-    };
-    fetchAllUsers();
-  }, [accessToken]);
+  // const [users, setUsers] = useState([]);
+  const { data: usersData } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => userApi.getAll(),
+  });
+  const users = usersData?.data.data.items || [];
+
+  // useEffect(() => {
+  //   const fetchAllUsers = async () => {
+  //     try {
+  //       const response = await fetch(`${API_URL}/users/all`, {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setUsers(data.data.items);
+  //       }
+  //     } catch (error) {
+  //       // handle
+  //     }
+  //   };
+  //   fetchAllUsers();
+  // }, [accessToken]);
   return (
     <div className="bg-white p-5">
       <div className="flex justify-center items-center mb-5">
@@ -38,7 +45,7 @@ const AdminUserList = () => {
             <th className="border px-4 py-2 bg-gray-100">UID</th>
             <th className="border px-4 py-2 bg-gray-100">Mã Sinh Viên</th>
             <th className="border px-4 py-2 bg-gray-100">IP</th>
-            <th className="border px-4 py-2 bg-gray-100">Thời gian đăng ký</th>
+            {/* <th className="border px-4 py-2 bg-gray-100">Thời gian đăng ký</th> */}
             <th className="border px-4 py-2 bg-gray-100">Action</th>
           </tr>
         </thead>
@@ -48,8 +55,8 @@ const AdminUserList = () => {
               <td className="border px-4 py-2 text-center">{id}</td>
               <td className="border px-4 py-2 text-center">{user.id}</td>
               <td className="border px-4 py-2">{user.username}</td>
-              <td className="border px-4 py-2">{user.ip}</td>
-              <td className="border px-4 py-2">{user.createdAt}</td>
+              <td className="border px-4 py-2">{user.ipAddress}</td>
+              {/* <td className="border px-4 py-2">{user.createdAt}</td> */}
               <td className="border px-4 py-2 flex justify-evenly">
                 <button className="bg-green-500 px-4 py-1 rounded-md">
                   Sửa

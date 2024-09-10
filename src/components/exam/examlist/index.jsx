@@ -67,7 +67,7 @@ const ExamList = () => {
   //         toast.error(result.message, { autoClose: 2000 });
   //       }
   //     } catch (error) {
-  //       console.error("Error adding topic:", error);
+  //       console.error("Error adding group:", error);
   //       toast.error("Đã có lỗi xảy ra", { autoClose: 2000 });
   //     }
   //   };
@@ -82,7 +82,7 @@ const ExamList = () => {
       if (userExam.registered) {
         return (
           <Link
-            to={`/exam/${userExam.exam.id}/exercises`}
+            to={`/exam/${userExam.exam.id}/questions`}
             className="bg-green-400 px-4 py-1 rounded-md"
           >
             Vào thi

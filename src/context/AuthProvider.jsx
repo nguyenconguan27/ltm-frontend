@@ -3,6 +3,8 @@ import { getIP } from "../services/UserServices";
 import { toast } from "react-toastify";
 import {
   clearLS,
+  getAccessTokenFromLS,
+  getRefreshTokenFromLS,
   getUserIdFromLS,
   saveAccesTokenToLS,
   saveRefreshTokenToLS,
@@ -46,6 +48,9 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     getUser();
+    setAccessToken(getAccessTokenFromLS());
+    setRefreshToken(getRefreshTokenFromLS());
+    setIsLoading(false);
   }, []);
 
   const loginAuth = (utils) => {
@@ -63,17 +68,6 @@ const AuthProvider = ({ children }) => {
     setAccessToken("");
     setRefreshToken("");
   };
-
-  useEffect(() => {
-    const foundUtils = localStorage.getItem("ltm");
-    if (foundUtils) {
-      const utils = JSON.parse(foundUtils);
-      setUser(utils.user);
-      setAccessToken(utils.accessToken);
-      setRefreshToken(utils.refreshToken);
-    }
-    setIsLoading(false); // Đặt isLoading thành false sau khi kiểm tra localStorage
-  }, []);
 
   return (
     <AuthContext.Provider

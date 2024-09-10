@@ -6,16 +6,16 @@ import { toast } from "react-toastify";
 
 const AdminManageExam = () => {
   const { examId } = useParams();
-  const [exercises, setExercises] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [selectedExercises, setSelectedExercises] = useState([]);
+  const [selectedQuestions, setSelectedQuestions] = useState([]);
   const { accessToken } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchExercises = async () => {
+    const fetchQuestions = async () => {
       try {
-        const response = await fetch(`${API_URL}/exercises/all`, {
+        const response = await fetch(`${API_URL}/questions/all`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",
@@ -24,12 +24,12 @@ const AdminManageExam = () => {
         if (response.ok) {
           const result = await response.json();
           if (result.status === 200) {
-            setExercises(result.data.items);
+            setQuestions(result.data.items);
           }
         }
       } catch (error) {}
     };
-    fetchExercises();
+    fetchQuestions();
   }, [accessToken]);
 
   useEffect(() => {
@@ -58,11 +58,11 @@ const AdminManageExam = () => {
     );
   };
 
-  const handleExerciseSelect = (exerciseId) => {
-    setSelectedExercises((prevSelected) =>
-      prevSelected.includes(exerciseId)
-        ? prevSelected.filter((id) => id !== exerciseId)
-        : [...prevSelected, exerciseId]
+  const handleQuestionSelect = (questionId) => {
+    setSelectedQuestions((prevSelected) =>
+      prevSelected.includes(questionId)
+        ? prevSelected.filter((id) => id !== questionId)
+        : [...prevSelected, questionId]
     );
   };
 
@@ -100,9 +100,9 @@ const AdminManageExam = () => {
     }
   };
 
-  const handleAddExercises = async () => {
+  const handleAddQuestions = async () => {
     try {
-      const response = await fetch(`${API_URL}/exercise-exam/add-all`, {
+      const response = await fetch(`${API_URL}/question-exam/add-all`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -110,7 +110,7 @@ const AdminManageExam = () => {
         },
         body: JSON.stringify({
           examId: examId,
-          exerciseIds: selectedExercises,
+          questionIds: selectedQuestions,
         }),
       });
       const result = await response.json();
@@ -142,11 +142,11 @@ const AdminManageExam = () => {
     }
   };
 
-  const handleSelectAllExercises = () => {
-    if (selectedExercises.length === exercises.length) {
-      setSelectedExercises([]);
+  const handleSelectAllQuestions = () => {
+    if (selectedQuestions.length === questions.length) {
+      setSelectedQuestions([]);
     } else {
-      setSelectedExercises(exercises.map((exercise) => exercise.id));
+      setSelectedQuestions(questions.map((question) => question.id));
     }
   };
 
@@ -202,28 +202,28 @@ const AdminManageExam = () => {
                 <th className="border px-4 py-2">
                   <input
                     type="checkbox"
-                    checked={selectedExercises.length === exercises.length}
-                    onChange={handleSelectAllExercises}
+                    checked={selectedQuestions.length === questions.length}
+                    onChange={handleSelectAllQuestions}
                   />
                 </th>
                 <th className="border px-4 py-2">#</th>
                 <th className="border px-4 py-2">Tên bài</th>
-                <th className="border px-4 py-2">Topic</th>
+                <th className="border px-4 py-2">Group</th>
               </tr>
             </thead>
             <tbody>
-              {exercises.map((exercise, id) => (
+              {questions.map((question, id) => (
                 <tr key={id} className="even:bg-gray-50 hover:bg-gray-200">
                   <td className="border px-4 py-2">
                     <input
                       type="checkbox"
-                      checked={selectedExercises.includes(exercise.id)}
-                      onChange={() => handleExerciseSelect(exercise.id)}
+                      checked={selectedQuestions.includes(question.id)}
+                      onChange={() => handleQuestionSelect(question.id)}
                     />
                   </td>
-                  <td className="border px-4 py-2">{exercise.id}</td>
-                  <td className="border px-4 py-2">{exercise.name}</td>
-                  <td className="border px-4 py-2">{exercise.topic.name}</td>
+                  <td className="border px-4 py-2">{question.id}</td>
+                  <td className="border px-4 py-2">{question.name}</td>
+                  <td className="border px-4 py-2">{question.group.name}</td>
                 </tr>
               ))}
             </tbody>
@@ -240,9 +240,9 @@ const AdminManageExam = () => {
         </button>
         <button
           className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-          onClick={handleAddExercises}
+          onClick={handleAddQuestions}
         >
-          Add Selected Exercises
+          Add Selected Questions
         </button>
       </div>
     </div>

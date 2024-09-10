@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { API_URL } from "../../constants/endpoints";
 import { AuthContext } from "../../context/AuthProvider";
-import Exercise from "../exercises/Exercise";
+import Question from "../question/Question";
 import { Link, useParams } from "react-router-dom";
 import { PRACTICE_LOG, PRACTICE_SCOREBOARD } from "../../constants/routes";
 
-const PracticeExercises = () => {
+const PracticeQuestions = () => {
   const { examId } = useParams();
-  const [exercises, setExercises] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const { accessToken, user } = useContext(AuthContext);
   useEffect(() => {
-    const fetchExercises = async () => {
+    const fetchQuestions = async () => {
       try {
         const response = await fetch(
-          `${API_URL}/practice-user-exercise/detail?userId=${user.id}`,
+          `${API_URL}/practice-user-question/detail?userId=${user.id}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -24,14 +24,14 @@ const PracticeExercises = () => {
         if (response.ok) {
           const result = await response.json();
           if (result.status === 200) {
-            setExercises(result.data.items);
+            setQuestions(result.data.items);
           }
         }
       } catch (error) {
         // handle
       }
     };
-    fetchExercises();
+    fetchQuestions();
   }, [accessToken, user.id, examId]);
   return (
     <div className="">
@@ -53,12 +53,12 @@ const PracticeExercises = () => {
         </div>
       </div>
       <div>
-        {exercises.map((exercise, index) => (
-          <Exercise key={index} exercise={exercise} />
+        {questions.map((question, index) => (
+          <Question key={index} question={question} />
         ))}
       </div>
     </div>
   );
 };
 
-export default PracticeExercises;
+export default PracticeQuestions;

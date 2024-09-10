@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { API_URL } from "../../constants/endpoints";
 import { AuthContext } from "../../context/AuthProvider";
 import { useParams } from "react-router-dom";
-import UserExercises from "../exam/scoreboard/UserExercises";
+import UserQuestions from "../exam/scoreboard/UserQuestion";
 
 const AdminRanking = () => {
   const { examId } = useParams();
@@ -46,7 +46,7 @@ const AdminRanking = () => {
             <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">
               Score
             </th>
-            {rankings[0]?.examUserExercises?.map((_, id) => (
+            {rankings[0]?.examUserQuestions?.map((_, id) => (
               <th
                 key={id}
                 className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"
@@ -59,13 +59,13 @@ const AdminRanking = () => {
         </thead>
         <tbody>
           {rankings.map((ranking, id) => (
-            <UserExercises
+            <UserQuestions
               key={id}
               username={ranking.username}
               ip={ranking.ip}
               id={ranking.id}
               score={ranking.score}
-              exercises={ranking.examUserExercises}
+              questions={ranking.examUserQuestions}
             />
           ))}
         </tbody>

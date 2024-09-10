@@ -4,7 +4,7 @@ import SockJS from "sockjs-client";
 import { toast } from "react-toastify";
 import { API_URL, SOCKET_URL } from "../../constants/endpoints";
 import { AuthContext } from "../../context/AuthProvider";
-import UserExercises from "../exam/scoreboard/UserExercises";
+import UserQuestions from "../exam/scoreboard/UserQuestion";
 
 const PracticeScoreBoard = () => {
   const [scoreBoard, setScoreBoard] = useState({});
@@ -41,7 +41,7 @@ const PracticeScoreBoard = () => {
       {},
       () => {
         client.subscribe(
-          `/topic/practice/${user.ip}/${user.username}/scoreboard`,
+          `/group/practice/${user.ip}/${user.username}/scoreboard`,
           (msg) => {
             const result = JSON.parse(msg.body);
             setScoreBoard(result);
@@ -74,7 +74,7 @@ const PracticeScoreBoard = () => {
             <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">
               Score
             </th>
-            {scoreBoard?.practiceUserExercises?.map((_, id) => (
+            {scoreBoard?.practiceUserQuestions?.map((_, id) => (
               <th
                 key={id}
                 className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"
@@ -86,13 +86,13 @@ const PracticeScoreBoard = () => {
           </tr>
         </thead>
         <tbody>
-          {scoreBoard.practiceUserExercises && (
-            <UserExercises
+          {scoreBoard.practiceUserQuestions && (
+            <UserQuestions
               username={scoreBoard.username}
               ip={scoreBoard.ip}
               id={1}
               score={scoreBoard.score}
-              exercises={scoreBoard.practiceUserExercises}
+              questions={scoreBoard.practiceUserQuestions}
             />
           )}
         </tbody>

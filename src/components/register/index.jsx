@@ -7,6 +7,8 @@ import { AuthContext } from "../../context/AuthProvider";
 import { API_URL } from "../../constants/endpoints";
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "../../api/auth.api";
+import { userApi } from "../../api/user.api";
+import { PRACTICE_EXERCISES } from "../../constants/routes";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -68,6 +70,42 @@ const Register = () => {
     }
   };
 
+  const handleRegister = async () => {
+    try {
+      const registerResponse = await registerMutation.mutateAsync(
+        {
+          username: username,
+          ipAddress: IP,
+          password: password,
+        },
+        {
+          onSuccess: (data) => {
+            toast.success("Đăng kí thành công!", {
+              autoClose: 2000,
+            });
+          },
+          onError: (error) => {
+            toast.error(error.response.data.message, {
+              autoClose: 2000,
+            });
+          },
+        }
+      );
+      console.log(registerResponse);
+      const userData = await userApi.getDetail(
+        registerResponse?.data?.data?.userId
+      );
+      loginAuth({
+        user: userData.data.data,
+        accessToken: registerResponse.data.data.accessToken,
+        refreshToken: registerResponse.data.data.refreshToken,
+      });
+      navigate(PRACTICE_EXERCISES);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleAddUser = (e) => {
     e.preventDefault();
     if (IP === "Detecting...") {
@@ -80,29 +118,7 @@ const Register = () => {
       });
     } else if (validateStudentCode(username)) {
       if (username !== "" && IP !== "" && password !== "") {
-        registerMutation.mutate(
-          {
-            username: username,
-            ipAddress: IP,
-            password: password,
-          },
-          {
-            onSuccess: (data) => {
-              toast.success("Đăng kí thành công!", {
-                autoClose: 2000,
-              });
-              loginAuth(data.data.data);
-              if (true) navigate("/exams");
-              else navigate("/admin/exams");
-              console.log(data);
-            },
-            onError: (error) => {
-              toast.error(error.response.data.message, {
-                autoClose: 2000,
-              });
-            },
-          }
-        );
+        handleRegister();
         setInvalidStudentCode(false);
       }
     } else {

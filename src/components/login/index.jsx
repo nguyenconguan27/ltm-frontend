@@ -13,7 +13,6 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [IP, setIP] = useState("Detecting...");
-  const [userId, setUserId] = useState("");
   const [invalidStudentCode, setInvalidStudentCode] = useState(false);
   const { loginAuth } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -61,7 +60,7 @@ const Login = () => {
   //           });
   //           loginAuth(result.data);
   //           if (result.data.user.role === "ROLE_USER")
-  //             navigate("/practice/exercises");
+  //             navigate("/practice/questions");
   //           else navigate("/admin/exams");
   //         } else {
   //           toast.error(result.message, {

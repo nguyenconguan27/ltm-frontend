@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import UserExercises from "./UserExercises";
+import UserQuestions from "./UserQuestion";
 import { useParams } from "react-router-dom";
 import { API_URL, SOCKET_URL } from "../../../constants/endpoints";
 import { AuthContext } from "../../../context/AuthProvider";
@@ -41,7 +41,7 @@ const ScoreBoard = () => {
     client.connect(
       {},
       () => {
-        client.subscribe(`/topic/scoreboard/${user.id}`, (msg) => {
+        client.subscribe(`/group/scoreboard/${user.id}`, (msg) => {
           const result = JSON.parse(msg.body);
           setScoreBoard(result);
         });
@@ -72,19 +72,19 @@ const ScoreBoard = () => {
             <th className="px-6 py-3 text-start text-md font-medium text-gray-500 dark:text-neutral-500">
               Score
             </th>
-            {scoreBoard?.userExerciseExams?.map((exercise, id) => (
+            {scoreBoard?.userQuestionExams?.map((question, id) => (
               <th
                 key={id}
                 className="px-6 py-3 text-center text-md font-medium text-gray-500 dark:text-neutral-500"
               >
                 {" "}
-                {exercise.alias}
+                {question.alias}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          <UserExercises key={scoreBoard.id} scoreBoard={scoreBoard} />
+          <UserQuestions key={scoreBoard.id} scoreBoard={scoreBoard} />
         </tbody>
       </table>
     </div>

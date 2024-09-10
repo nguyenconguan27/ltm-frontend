@@ -27,7 +27,7 @@ class HTTP {
         const { url } = response.config;
         if (
           url === "http://localhost:8080/v1/api/auth/login" ||
-          url === "http://localhost:8080/v1/api/auth/login"
+          url === "http://localhost:8080/v1/api/auth/register"
         ) {
           this.accessToken = "Bearer " + response.data.data.accessToken;
         } else if (url === "/auth/logout") {

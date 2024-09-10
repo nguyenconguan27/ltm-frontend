@@ -3,7 +3,7 @@ import RegisterPage from "./pages/RegisterPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthProvider from "./context/AuthProvider";
-import ExercisesPage from "./pages/ExercisesPage";
+import QuestionsPage from "./pages/QuestionPage";
 import ScoreBoardPage from "./pages/ScoreBoardPage";
 import LogPage from "./pages/LogPage";
 import LoginPage from "./pages/LoginPage";
@@ -17,11 +17,11 @@ import AdminRoute from "./routes/AdminRoute";
 import PublicRoute from "./routes/PublicRoute";
 import AdminRankingPage from "./pages/admin/AdminRankingPage";
 import AdminEditExamPage from "./pages/admin/AdminEditExamPage";
-import AdminExerciseListPage from "./pages/admin/AdminExerciseListPage";
-import AdminEditExercisePage from "./pages/admin/AdminEditExercisePage";
+import AdminQuestionListPage from "./pages/admin/AdminQuestionListPage";
+import AdminEditQuestionPage from "./pages/admin/AdminEditQuestionPage";
 import ExamListPage from "./pages/ExamListPage";
 import AdminManageExamPage from "./pages/admin/AdminManageExamPage";
-import PracticeExercisesPage from "./pages/PracticeExercisesPage";
+import PracticeQuestionsPage from "./pages/PracticeQuestionPage";
 import PracticeScoreBoardPage from "./pages/PracticeScoreBoardPage";
 import TestPage from "./pages/TestPage";
 import TestLayout from "./pages/TestLayout";
@@ -47,18 +47,18 @@ function App() {
             <Route path="/testlayout" element={<TestLayout />} />
 
             <Route path="/" element={<PrivateRoute />}>
-              <Route index element={<PracticeExercisesPage />} />
+              <Route index element={<PracticeQuestionsPage />} />
               <Route
-                path="practice/exercises"
-                element={<PracticeExercisesPage />}
+                path="practice/questions"
+                element={<PracticeQuestionsPage />}
               />
               <Route
                 path="practice/scoreboard"
                 element={<PracticeScoreBoardPage />}
               />
               <Route
-                path="exam/:examId/exercises"
-                element={<ExercisesPage />}
+                path="exam/:examId/questions"
+                element={<QuestionsPage />}
               />
               <Route
                 path="exam/:examId/scoreboard"
@@ -86,14 +86,14 @@ function App() {
                   element={<AdminRankingPage />}
                 />
                 <Route path="users" element={<AdminUserListPage />} />
-                <Route path="exercises" element={<AdminExerciseListPage />} />
+                <Route path="questions" element={<AdminQuestionListPage />} />
                 <Route
-                  path="exercises/add"
-                  element={<AdminEditExercisePage />}
+                  path="questions/add"
+                  element={<AdminEditQuestionPage />}
                 />
                 <Route
-                  path="exercises/:exerciseId/detail"
-                  element={<AdminEditExercisePage />}
+                  path="questions/:questionId/detail"
+                  element={<AdminEditQuestionPage />}
                 />
               </Route>
             </Route>

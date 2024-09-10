@@ -17,7 +17,7 @@ const Header = () => {
         <div className="text-xl font-bold">Lập trình mạng 2024</div>
         {user?.role === "ROLE_USER" && (
           <div className="flex ml-10 gap-x-10">
-            <Link to={"/practice/exercises"}>Luyện tập</Link>
+            <Link to={"/practice/questions"}>Luyện tập</Link>
             <Link to={"/exams"}>Cuộc thi</Link>
           </div>
         )}
@@ -25,7 +25,7 @@ const Header = () => {
           <div className="flex ml-10 gap-x-10">
             <Link to={"/admin/exams  "}>Danh sách exams</Link>
             <Link to={"/admin/users"}>Danh sách người dùng</Link>
-            <Link to={"/admin/exercises"}>Danh sách bài tập</Link>
+            <Link to={"/admin/questions"}>Danh sách bài tập</Link>
             <Link to={"/log"}>Log</Link>
           </div>
         )}

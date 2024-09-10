@@ -14,7 +14,7 @@ const AdminExamList = () => {
     queryFn: () => examApi.getAll(),
   });
   //   useEffect(() => {
-  //     const fetchExercises = async () => {
+  //     const fetchQuestions = async () => {
   //       try {
   //         const response = await fetch(`${API_URL}/exams/all`, {
   //           headers: {
@@ -32,7 +32,7 @@ const AdminExamList = () => {
   //         console.error("Error loading:", error);
   //       }
   //     };
-  //     fetchExercises();
+  //     fetchQuestions();
   //   }, [accessToken]);
 
   const handleAddExam = () => {};
